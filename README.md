@@ -1,83 +1,38 @@
-# VUE Echarts 基础组件
+# 基于element的vue nav组件
 
-## 支持多个图表共存
+### 1. 安装依赖
+> npm i vue-ele-nav
 
-```
-//安装依赖
-npm i -S echarts
-npm i -S vue-echarts-sedu
-//运行项目
-npm run dev
-```
-
-> 调用
-
-```
-main.js:   加入
-  import seduEcharts from 'vue-echarts-sedu'
-
-  Vue.use(seduEcharts);
-
----
-
-具体视图：
-<template>
-  <sedu-echarts domId="aaaa"
-                :option=option1 />
-
-  <sedu-echarts domId="bbb"
-                :option=option1 />  
-</template>
-
-<script>
-export default {
-  data () {
-    return {
-      option1: {}
-    }
-  },
-  created(){
-    setTimeout(() => {
-      this.option1 = {
-        title: { text: "ECharts Gauge" },
-        tooltip: { formatter: "{a} <br/>{b} : {c}%" },
-        series: [
-          {
-            name: "业务指标",
-            type: "gauge",
-            detail: { formatter: "{value}%" },
-            data: [{ value: 50 }]
-          }
-        ]
-      };
-      }, 3000);
-  }
-}
-</script>
-```
-
-> 参数
-
-```
-props: {
-    // 自定义class
-    cname: {
-      type: String,
-      default: ''
-    },
-    // 自定义行内样式
-    myStyle: {
-      type: String,
-      default: ''
-    },
-    // echarts的配置参数
-    option: {
-      type: Object,
-      required: true
-    },
-    // dom元素的id，区分多个图表
-    domId: {
-      type: String,
-      required: true
-    }
-```
+### 2. 声明
+>
+	//根目录下src--main.js文件中
+	import eleNav from 'vue-ele-nav'
+	//底下引用
+	Vue.use(eleNav)
+>
+### 3. 使用前提(路由规范)
+>
+	//只挑必须的字段，每一个路由地址都是如此,目前只展示到2级菜单
+	name: 'CourseLibrary',//路由跳转的唯一标识
+	meta: {
+		title: 'components.asideNav.courseLibrary',//名字
+		icon: 'el-icon-menu',//图标,可不写
+		show:false//是否展示，只有为false时不展示
+	},
+>
+### 4. 使用
+>
+	//进入到使用页面，一般是main.vue文件
+	<ele-nav class="else"
+             cname="navbar"
+             :navInformation="navInformation">
+	</ele-nav>
+>
+### 5. 参数
+> * 导航信息:*navInformation*-->Array;必传
+> * 自定义class:*cname*-->String;非必传;默认`'components-nav'`
+> * 自定义内联样式:*myStyle*-->String;非必传;默认`''`
+> * 是否开启横向导航:*horizontal*-->Boolean;非必传;默认`false`
+> * 是否开启手风琴模式:*accordion*-->Boolean;非必传;默认`false`
+### 6. 样式
+> * 自定义激活颜色:*replace_active*，需要自己添加颜色
