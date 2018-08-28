@@ -251,3 +251,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  @import "eleNav.css";
+</style>

@@ -1,7 +1,7 @@
 {
   "name": "vue-ele-nav",
   "description": "基于element的nav组件",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "author": "aFei <1106728884@qq.com>",
   "license": "MIT",
   "main": "src/lib/index.js",
