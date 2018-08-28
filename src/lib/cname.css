@@ -1,6 +1,4 @@
-.ele-nav .icon, .ele-nav .replace_active .icon {
-  color: #a2adb8; }
-.ele-nav .replace_active, .ele-nav .replace_active .icon {
+.ele-nav .replace_active, .ele-nav .replace_active .icon, .ele-nav .replace_active_child, .ele-nav .replace_active_child .icon {
   color: #f49900 !important; }
 .ele-nav .replace_active:after {
   content: '';

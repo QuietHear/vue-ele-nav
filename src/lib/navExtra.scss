@@ -1,11 +1,9 @@
 .extra {
   overflow: hidden;
-  &, .replace_active {
-    .icon {
-      font-size: 18px;
-    }
+  .icon {
+    font-size: 18px;
   }
-  .replace_active {
+  .replace_active, .replace_active_child {
     position: relative;
     z-index: 1;
   }

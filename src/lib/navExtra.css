@@ -1,8 +1,8 @@
 .extra {
   overflow: hidden; }
-  .extra .icon, .extra .replace_active .icon {
+  .extra .icon {
     font-size: 18px; }
-  .extra .replace_active {
+  .extra .replace_active, .extra .replace_active_child {
     position: relative;
     z-index: 1; }
   .extra .el-menu .el-menu-item-group__title {

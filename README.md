@@ -16,7 +16,7 @@
 	name: 'CourseLibrary',//路由跳转的唯一标识
 	meta: {
 		title: 'components.asideNav.courseLibrary',//名字
-		icon: 'el-icon-menu',//图标,可不写
+		icon: 'icon-xitong',//这里只支持iconfont图标,可不写
 		show:false//是否展示，只有为false时不展示
 	},
 >
@@ -35,4 +35,5 @@
 > * 是否开启手风琴模式:*accordion*-->Boolean;非必传;默认`false`
 ### 6. 样式
 > * 自定义颜色:组件上绑定cname后，复制原本的*.ele-nav*样式进行颜色
-> * 自定义激活颜色:*replace_active*，需要自己添加颜色
+> * 自定义一级菜单激活颜色:*replace_active*，需要自己添加颜色
+> * 自定义二级菜单激活颜色:*replace_active_child*，需要自己添加颜色

@@ -1,13 +1,10 @@
-.ele-nav{
-  &,.replace_active{
-    .icon {
-      color: #a2adb8;
-    }
-  }
-  .replace_active {
+.ele-nav {
+  .replace_active, .replace_active_child {
     &, .icon {
       color: #f49900 !important;
     }
+  }
+  .replace_active {
     &:after {
       content: '';
       position: absolute;

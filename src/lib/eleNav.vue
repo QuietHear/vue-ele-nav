@@ -34,7 +34,7 @@
         <el-menu-item :index=one.index
                       :key="one.index"
                       v-for="one in item.children">
-          <router-link :class="one.active===true?'replace_active':''"
+          <router-link :class="one.active===true?'replace_active_child':''"
                        :to="{name:one.linkName}">
             <i class="icon iconfont"
                :class="one.iconName"></i>
@@ -111,9 +111,8 @@
       let parent = this.navInformation.filter(function (item) {
         return item.linkName === name
       })
-      if (parent.length > 0) {
-        parent[0].active = true
-      } else {
+      // 如果有二级菜单
+      if (parent.length === 0) {
         parent = this.navInformation.filter(function (item) {
           let bol = false
           let arr = []
@@ -131,6 +130,13 @@
           return item.linkName === name
         })[0].active = true
       }
+      // 点亮一级菜单
+      parent[0].active = true
+      // 存储当前激活的菜单
+      sessionStorage.setItem('navActiveParentIndex', parent[0].index)
+      sessionStorage.setItem('navActiveChildIndex', parent.length === 0 ? parent[0].children.filter(function (item) {
+        return item.linkName === name
+      })[0].index : '')
       // 初始化打开项
       this.opens = [parent[0].index]
     },
@@ -140,17 +146,16 @@
       },
       changeNavActive(parent, child) { // 更新导航的激活点亮项
         // 清除之前激活的菜单
-        if (sessionStorage.getItem('navActiveChildIndex') === '') {
-          if (sessionStorage.getItem('navActiveParentIndex') !== '') {
-            this.navInformation.filter(function (item) {
-              return item.index === sessionStorage.getItem('navActiveParentIndex')
-            })[0].active = false
-          }
-        } else {
+        if (sessionStorage.getItem('navActiveChildIndex') !== '') {
           this.navInformation.filter(function (item) {
             return item.index === sessionStorage.getItem('navActiveParentIndex')
           })[0].children.filter(function (item) {
             return item.index === sessionStorage.getItem('navActiveChildIndex')
+          })[0].active = false
+        }
+        if (sessionStorage.getItem('navActiveParentIndex') !== '') {
+          this.navInformation.filter(function (item) {
+            return item.index === sessionStorage.getItem('navActiveParentIndex')
           })[0].active = false
         }
         // 存储当前激活的菜单
@@ -161,15 +166,13 @@
           // 存储当前激活项的name，方便为非正常跳转做对比
           sessionStorage.setItem('navActiveName', '')
         } else {
-          let obj
-          if (child === undefined) {
-            obj = this.navInformation.filter(function (item) {
-              return item.index === parent
-            })[0]
-          } else {
-            obj = this.navInformation.filter(function (item) {
-              return item.index === parent
-            })[0].children.filter(function (item) {
+          let obj = this.navInformation.filter(function (item) {
+            return item.index === parent
+          })[0]
+          // 如果有二级菜单
+          if (child !== undefined) {
+            obj.active = true // 点亮一级菜单
+            obj = obj.children.filter(function (item) {
               return item.index === child
             })[0]
           }
