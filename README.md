@@ -23,16 +23,16 @@
 ### 4. 使用
 >
 	//进入到使用页面，一般是main.vue文件
-	<ele-nav class="else"
-             cname="navbar"
+	<ele-nav cname="navbar"
              :navInformation="navInformation">
 	</ele-nav>
 >
 ### 5. 参数
 > * 导航信息:*navInformation*-->Array;必传
-> * 自定义class:*cname*-->String;非必传;默认`'components-nav'`
+> * 自定义class:*cname*-->String;非必传;默认`'ele-nav'`
 > * 自定义内联样式:*myStyle*-->String;非必传;默认`''`
 > * 是否开启横向导航:*horizontal*-->Boolean;非必传;默认`false`
 > * 是否开启手风琴模式:*accordion*-->Boolean;非必传;默认`false`
 ### 6. 样式
+> * 自定义颜色:组件上绑定cname后，复制原本的*.ele-nav*样式进行颜色
 > * 自定义激活颜色:*replace_active*，需要自己添加颜色

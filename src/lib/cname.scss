@@ -1,0 +1,40 @@
+.ele-nav{
+  &,.replace_active{
+    .icon {
+      color: #a2adb8;
+    }
+  }
+  .replace_active {
+    &, .icon {
+      color: #f49900 !important;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 150%;
+      height: 100%;
+      opacity: 0.3;
+      background-image: -webkit-linear-gradient(
+          0deg,
+          #f49900 0%,
+          #1e2836 25%
+      );
+      z-index: -1;
+      animation: navGradient 1s 1;
+      -webkit-animation: navGradient 1s 1;
+    }
+  }
+  .el-menu {
+    background-color: darken(#1e2836, 3%);
+  }
+  li {
+    a {
+      color: #a2adb8;
+      &:hover {
+        background-color: lighten(#1e2836, 5%) !important;
+      }
+    }
+  }
+}

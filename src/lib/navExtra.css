@@ -1,0 +1,23 @@
+.extra {
+  overflow: hidden; }
+  .extra .icon, .extra .replace_active .icon {
+    font-size: 18px; }
+  .extra .replace_active {
+    position: relative;
+    z-index: 1; }
+  .extra .el-menu .el-menu-item-group__title {
+    padding: 0; }
+  .extra .el-menu .el-menu-item {
+    vertical-align: middle; }
+  .extra li a {
+    letter-spacing: 2px;
+    text-indent: 4px;
+    outline: none; }
+    .extra li a .icon {
+      margin-right: 4px; }
+    .extra li a:hover .icon {
+      transition: all 1s; }
+  .extra .el-menu-item-group__title {
+    padding: 0 0 0 20px; }
+
+/*# sourceMappingURL=navExtra.css.map */

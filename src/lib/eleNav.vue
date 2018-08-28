@@ -1,15 +1,16 @@
 /*
- * @Author: aFei
- * @Date: 2018-07-10 16:45:29
- */
+* @Author: aFei
+* @Date: 2018-07-10 16:45:29
+*/
 /*
 * @LastEditors: aFei
-* @LastEditTime: 2018-08-23 09:35:48
+* @LastEditTime: 2018-08-28 14:42:27
 */
 <template>
   <el-menu ref="tab"
            @select="saveOpen"
            :unique-opened="accordion===true? true:false"
+           class="extra"
            :class=cname
            :style=myStyle
            :default-openeds="opens"
@@ -60,176 +61,143 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      opens: ['1'],
-      normalClass: 'icon iconfont',
-      mode: 1
-    }
-  },
-  props: {
-    navInformation: {
-      type: Array,
-      required: true
-    },
-    cname: {
-      type: String,
-      default: 'components-nav'
-    },
-    myStyle: {
-      type: String,
-      default: ''
-    },
-    horizontal: {
-      type: Boolean,
-      default: false
-    },
-    accordion: {
-      type: Boolean,
-      default: false
-    }
-  },
-  created () {
-    // 初始化索引
-    for (let i = 0; i < this.navInformation.length; i++) {
-      this.navInformation[i].index = `${i + 1}`
-      if (this.navInformation[i].children !== undefined && this.navInformation[i].children.length > 0) {
-        for (let y = 0; y < this.navInformation[i].children.length; y++) {
-          this.navInformation[i].children[y].index = `${i + 1}-${y + 1}`
-        }
+  export default {
+    data() {
+      return {
+        opens: ['1'],
+        normalClass: 'icon iconfont',
+        mode: 1
       }
-    }
-    // 恢复当前激活的菜单
-    let name = ''
-    if (this.$route.meta.markName !== undefined && this.$route.meta.markName !== '') {
-      name = this.$route.meta.markName
-    } else {
-      name = this.$route.name
-    }
-    let parent = this.navInformation.filter(function (item) {
-      return item.linkName === name
-    })
-    if (parent.length > 0) {
-      parent[0].active = true
-    } else {
-      parent = this.navInformation.filter(function (item) {
-        let bol = false
-        let arr = []
-        if (item.children.length > 0) {
-          arr = item.children.filter(function (one) {
-            return one.linkName === name
-          })
-        }
-        if (arr.length > 0) {
-          bol = true
-        }
-        return bol
-      })
-      parent[0].children.filter(function (item) {
-        return item.linkName === name
-      })[0].active = true
-    }
-    // 初始化打开项
-    this.opens = [parent[0].index]
-  },
-  methods: {
-    saveOpen (indexInside, indexOutside) {
-      this.changeNavActive(indexOutside[0], indexOutside[1])
     },
-    changeNavActive (parent, child) { // 更新导航的激活点亮项
-      // 清除之前激活的菜单
-      if (sessionStorage.getItem('navActiveChildIndex') === '') {
-        if (sessionStorage.getItem('navActiveParentIndex') !== '') {
-          this.navInformation.filter(function (item) {
-            return item.index === sessionStorage.getItem('navActiveParentIndex')
-          })[0].active = false
-        }
-      } else {
-        this.navInformation.filter(function (item) {
-          return item.index === sessionStorage.getItem('navActiveParentIndex')
-        })[0].children.filter(function (item) {
-          return item.index === sessionStorage.getItem('navActiveChildIndex')
-        })[0].active = false
+    props: {
+      navInformation: {
+        type: Array,
+        required: true
+      },
+      cname: {
+        type: String,
+        default: 'ele-nav'
+      },
+      myStyle: {
+        type: String,
+        default: ''
+      },
+      horizontal: {
+        type: Boolean,
+        default: false
+      },
+      accordion: {
+        type: Boolean,
+        default: false
       }
-      // 存储当前激活的菜单
-      sessionStorage.setItem('navActiveParentIndex', parent)
-      sessionStorage.setItem('navActiveChildIndex', child !== undefined ? child : '')
-      // 点亮当前激活的菜单
-      if (child === '' && parent === '') {
-        // 存储当前激活项的name，方便为非正常跳转做对比
-        sessionStorage.setItem('navActiveName', '')
-      } else {
-        let obj
-        if (child === undefined) {
-          obj = this.navInformation.filter(function (item) {
-            return item.index === parent
-          })[0]
-        } else {
-          obj = this.navInformation.filter(function (item) {
-            return item.index === parent
-          })[0].children.filter(function (item) {
-            return item.index === child
-          })[0]
-        }
-        obj.active = true
-        // 存储当前激活项的name，方便为非正常跳转做对比
-        sessionStorage.setItem('navActiveName', obj.linkName)
-      }
-    }
-  },
-  watch: {
-    $route () {
-      let it = this
-      if (this.$route.meta.markName !== undefined && this.$route.meta.markName !== '') {
-        // 找到当前name对应的两个index
-        let parent
-        let child
-        parent = this.navInformation.filter(function (item) {
-          return item.linkName === it.$route.meta.markName
-        })
-        if (parent.length > 0) { // 第一层已经找到标记nav
-          this.changeNavActive(parent[0].index)
-        } else { // 标记nav在第二层
-          parent = this.navInformation.filter(function (item) {
-            let isTrue = false
-            let arr = []
-            if (item.children.length > 0) {
-              arr = item.children.filter(function (one) {
-                return one.linkName === it.$route.meta.markName
-              })
-              if (arr.length > 0) {
-                isTrue = true
-              }
-            }
-            return isTrue
-          })
-          if (parent.length > 0) { // 当前路由在导航里
-            child = parent[0].children.filter(function (item) {
-              return item.linkName === it.$route.meta.markName
-            })
-            this.changeNavActive(parent[0].index, child[0].index)
-          } else { // 当前路由不在导航里
-            this.changeNavActive('', '')
+    },
+    created() {
+      // 初始化索引
+      for (let i = 0; i < this.navInformation.length; i++) {
+        this.navInformation[i].index = `${i + 1}`
+        if (this.navInformation[i].children !== undefined && this.navInformation[i].children.length > 0) {
+          for (let y = 0; y < this.navInformation[i].children.length; y++) {
+            this.navInformation[i].children[y].index = `${i + 1}-${y + 1}`
           }
         }
-        this.opens = [sessionStorage.getItem('navActiveParentIndex')]
+      }
+      // 恢复当前激活的菜单
+      let name = ''
+      if (this.$route.meta.markName !== undefined && this.$route.meta.markName !== '') {
+        name = this.$route.meta.markName
       } else {
-        if (this.$route.name !== sessionStorage.getItem('navActiveName')) {
+        name = this.$route.name
+      }
+      let parent = this.navInformation.filter(function (item) {
+        return item.linkName === name
+      })
+      if (parent.length > 0) {
+        parent[0].active = true
+      } else {
+        parent = this.navInformation.filter(function (item) {
+          let bol = false
+          let arr = []
+          if (item.children.length > 0) {
+            arr = item.children.filter(function (one) {
+              return one.linkName === name
+            })
+          }
+          if (arr.length > 0) {
+            bol = true
+          }
+          return bol
+        })
+        parent[0].children.filter(function (item) {
+          return item.linkName === name
+        })[0].active = true
+      }
+      // 初始化打开项
+      this.opens = [parent[0].index]
+    },
+    methods: {
+      saveOpen(indexInside, indexOutside) {
+        this.changeNavActive(indexOutside[0], indexOutside[1])
+      },
+      changeNavActive(parent, child) { // 更新导航的激活点亮项
+        // 清除之前激活的菜单
+        if (sessionStorage.getItem('navActiveChildIndex') === '') {
+          if (sessionStorage.getItem('navActiveParentIndex') !== '') {
+            this.navInformation.filter(function (item) {
+              return item.index === sessionStorage.getItem('navActiveParentIndex')
+            })[0].active = false
+          }
+        } else {
+          this.navInformation.filter(function (item) {
+            return item.index === sessionStorage.getItem('navActiveParentIndex')
+          })[0].children.filter(function (item) {
+            return item.index === sessionStorage.getItem('navActiveChildIndex')
+          })[0].active = false
+        }
+        // 存储当前激活的菜单
+        sessionStorage.setItem('navActiveParentIndex', parent)
+        sessionStorage.setItem('navActiveChildIndex', child !== undefined ? child : '')
+        // 点亮当前激活的菜单
+        if (child === '' && parent === '') {
+          // 存储当前激活项的name，方便为非正常跳转做对比
+          sessionStorage.setItem('navActiveName', '')
+        } else {
+          let obj
+          if (child === undefined) {
+            obj = this.navInformation.filter(function (item) {
+              return item.index === parent
+            })[0]
+          } else {
+            obj = this.navInformation.filter(function (item) {
+              return item.index === parent
+            })[0].children.filter(function (item) {
+              return item.index === child
+            })[0]
+          }
+          obj.active = true
+          // 存储当前激活项的name，方便为非正常跳转做对比
+          sessionStorage.setItem('navActiveName', obj.linkName)
+        }
+      }
+    },
+    watch: {
+      $route() {
+        let it = this
+        if (this.$route.meta.markName !== undefined && this.$route.meta.markName !== '') {
           // 找到当前name对应的两个index
           let parent
           let child
           parent = this.navInformation.filter(function (item) {
-            return item.linkName === it.$route.name
+            return item.linkName === it.$route.meta.markName
           })
-          if (parent.length > 0) {
+          if (parent.length > 0) { // 第一层已经找到标记nav
             this.changeNavActive(parent[0].index)
-          } else {
+          } else { // 标记nav在第二层
             parent = this.navInformation.filter(function (item) {
               let isTrue = false
+              let arr = []
               if (item.children.length > 0) {
-                let arr = item.children.filter(function (one) {
-                  return one.linkName === it.$route.name
+                arr = item.children.filter(function (one) {
+                  return one.linkName === it.$route.meta.markName
                 })
                 if (arr.length > 0) {
                   isTrue = true
@@ -237,21 +205,63 @@ export default {
               }
               return isTrue
             })
-            child = parent[0].children.filter(function (item) {
-              return item.linkName === it.$route.name
-            })
-            this.changeNavActive(parent[0].index, child[0].index)
+            if (parent.length > 0) { // 当前路由在导航里
+              child = parent[0].children.filter(function (item) {
+                return item.linkName === it.$route.meta.markName
+              })
+              this.changeNavActive(parent[0].index, child[0].index)
+            } else { // 当前路由不在导航里
+              this.changeNavActive('', '')
+            }
           }
           this.opens = [sessionStorage.getItem('navActiveParentIndex')]
         } else {
-          // 用户点击
+          if (this.$route.name !== sessionStorage.getItem('navActiveName')) {
+            // 找到当前name对应的两个index
+            let parent
+            let child
+            parent = this.navInformation.filter(function (item) {
+              return item.linkName === it.$route.name
+            })
+            if (parent.length > 0) {
+              this.changeNavActive(parent[0].index)
+            } else {
+              parent = this.navInformation.filter(function (item) {
+                let isTrue = false
+                if (item.children.length > 0) {
+                  let arr = item.children.filter(function (one) {
+                    return one.linkName === it.$route.name
+                  })
+                  if (arr.length > 0) {
+                    isTrue = true
+                  }
+                }
+                return isTrue
+              })
+              child = parent[0].children.filter(function (item) {
+                return item.linkName === it.$route.name
+              })
+              this.changeNavActive(parent[0].index, child[0].index)
+            }
+            this.opens = [sessionStorage.getItem('navActiveParentIndex')]
+          } else {
+            // 用户点击
+          }
         }
       }
     }
   }
-}
 </script>
 
+<!--基础样式-->
 <style scoped>
   @import "eleNav.css";
+</style>
+
+<!--样式扩展-->
+<style>
+  /*必需的扩展*/
+  @import "navExtra.css";
+  /*默认颜色*/
+  @import "cname.css";
 </style>
