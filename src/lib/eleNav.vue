@@ -129,14 +129,16 @@
         parent[0].children.filter(function (item) {
           return item.linkName === name
         })[0].active = true
+        sessionStorage.setItem('navActiveChildIndex', parent[0].children.filter(function (item) {
+          return item.linkName === name
+        })[0].index)
+      } else {
+        sessionStorage.setItem('navActiveChildIndex', '')
       }
       // 点亮一级菜单
       parent[0].active = true
       // 存储当前激活的菜单
       sessionStorage.setItem('navActiveParentIndex', parent[0].index)
-      sessionStorage.setItem('navActiveChildIndex', parent.length === 0 ? parent[0].children.filter(function (item) {
-        return item.linkName === name
-      })[0].index : '')
       // 初始化打开项
       this.opens = [parent[0].index]
     },
