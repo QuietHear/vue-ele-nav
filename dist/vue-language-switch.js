@@ -612,7 +612,8 @@ function applyToTag (styleElement, obj) {
     return {
       opens: ['1'],
       normalClass: 'icon iconfont',
-      mode: 1
+      mode: 1,
+      i18n: false
     };
   },
   props: {
@@ -638,6 +639,9 @@ function applyToTag (styleElement, obj) {
     }
   },
   created() {
+    if (this.$i18n !== undefined) {
+      this.i18n = true;
+    }
     // 初始化索引
     for (let i = 0; i < this.navInformation.length; i++) {
       this.navInformation[i].index = `${i + 1}`;
@@ -12297,7 +12301,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_eleNav_vue__ = __webpack_require__(5);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3516b362_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_eleNav_vue__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3182139a_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_eleNav_vue__ = __webpack_require__(23);
 function injectStyle (ssrContext) {
   __webpack_require__(15)
   __webpack_require__(19)
@@ -12313,12 +12317,12 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-3516b362"
+var __vue_scopeId__ = "data-v-3182139a"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_eleNav_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3516b362_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_eleNav_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3182139a_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_eleNav_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -12339,7 +12343,7 @@ var content = __webpack_require__(16);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("e94dbde0", content, true, {});
+var update = __webpack_require__(4)("333143bc", content, true, {});
 
 /***/ }),
 /* 16 */
@@ -12413,7 +12417,7 @@ var content = __webpack_require__(20);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("7c6fabd0", content, true, {});
+var update = __webpack_require__(4)("6efce174", content, true, {});
 
 /***/ }),
 /* 20 */
@@ -12463,7 +12467,7 @@ exports.push([module.i, ".ele-nav .replace_active,.ele-nav .replace_active .icon
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-menu',{ref:"tab",staticClass:"extra",class:_vm.cname,style:(_vm.myStyle),attrs:{"unique-opened":_vm.accordion===true? true:false,"default-openeds":_vm.opens,"mode":_vm.horizontal===true? 'horizontal':'vertical'},on:{"select":_vm.saveOpen}},_vm._l((_vm.navInformation),function(item){return (item.children!==undefined && item.children.length>0)?_c('el-submenu',{key:item.index,attrs:{"index":item.index}},[_c('template',{slot:"title"},[_c('router-link',{class:item.active===true?'replace_active':'',attrs:{"to":{name:item.linkName}}},[_c('i',{staticClass:"icon iconfont",class:item.iconName}),_vm._v("\n        "+_vm._s(_vm.$t(item.name))+"\n      ")])],1),_vm._v(" "),_c('el-menu-item-group',_vm._l((item.children),function(one){return _c('el-menu-item',{key:one.index,attrs:{"index":one.index}},[_c('router-link',{class:one.active===true?'replace_active_child':'',attrs:{"to":{name:one.linkName}}},[_c('i',{staticClass:"icon iconfont",class:one.iconName}),_vm._v("\n          "+_vm._s(_vm.$t(one.name))+"\n        ")])],1)}))],2):_c('el-menu-item-group',{key:item.index,staticClass:"else",attrs:{"index":item.index}},[_c('el-menu-item',{attrs:{"index":item.index}},[_c('router-link',{class:item.active===true?'replace_active':'',attrs:{"to":{name:item.linkName}}},[_c('i',{staticClass:"icon iconfont",class:item.iconName}),_vm._v("\n        "+_vm._s(_vm.$t(item.name))+"\n      ")])],1)],1)}))}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-menu',{ref:"tab",staticClass:"extra",class:_vm.cname,style:(_vm.myStyle),attrs:{"unique-opened":_vm.accordion===true? true:false,"default-openeds":_vm.opens,"mode":_vm.horizontal===true? 'horizontal':'vertical'},on:{"select":_vm.saveOpen}},_vm._l((_vm.navInformation),function(item){return (item.children!==undefined && item.children.length>0)?_c('el-submenu',{key:item.index,attrs:{"index":item.index}},[_c('template',{slot:"title"},[_c('router-link',{class:item.active===true?'replace_active':'',attrs:{"to":{name:item.linkName}}},[_c('i',{staticClass:"icon iconfont",class:item.iconName}),_vm._v("\n        "+_vm._s(_vm.i18n===true?_vm.$t(item.name):item.name)+"\n      ")])],1),_vm._v(" "),_c('el-menu-item-group',_vm._l((item.children),function(one){return _c('el-menu-item',{key:one.index,attrs:{"index":one.index}},[_c('router-link',{class:one.active===true?'replace_active_child':'',attrs:{"to":{name:one.linkName}}},[_c('i',{staticClass:"icon iconfont",class:one.iconName}),_vm._v("\n          "+_vm._s(_vm.i18n===true?_vm.$t(one.name):one.name)+"\n        ")])],1)}))],2):_c('el-menu-item-group',{key:item.index,staticClass:"else",attrs:{"index":item.index}},[_c('el-menu-item',{attrs:{"index":item.index}},[_c('router-link',{class:item.active===true?'replace_active':'',attrs:{"to":{name:item.linkName}}},[_c('i',{staticClass:"icon iconfont",class:item.iconName}),_vm._v("\n        "+_vm._s(_vm.i18n===true?_vm.$t(item.name):item.name)+"\n      ")])],1)],1)}))}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

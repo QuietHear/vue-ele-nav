@@ -4,7 +4,7 @@
 */
 /*
 * @LastEditors: aFei
-* @LastEditTime: 2018-08-28 14:42:27
+* @LastEditTime: 2018-09-07 15:32:11
 */
 <template>
   <el-menu ref="tab"
@@ -26,7 +26,7 @@
                      :to="{name:item.linkName}">
           <i class="icon iconfont"
              :class="item.iconName"></i>
-          {{$t(item.name)}}
+          {{i18n===true?$t(item.name):item.name}}
         </router-link>
       </template>
       <!--二级菜单-->
@@ -38,7 +38,7 @@
                        :to="{name:one.linkName}">
             <i class="icon iconfont"
                :class="one.iconName"></i>
-            {{$t(one.name)}}
+            {{i18n===true?$t(one.name):one.name}}
           </router-link>
         </el-menu-item>
       </el-menu-item-group>
@@ -53,7 +53,7 @@
                      :to="{name:item.linkName}">
           <i class="icon iconfont"
              :class="item.iconName"></i>
-          {{$t(item.name)}}
+          {{i18n===true?$t(item.name):item.name}}
         </router-link>
       </el-menu-item>
     </el-menu-item-group>
@@ -66,7 +66,8 @@
       return {
         opens: ['1'],
         normalClass: 'icon iconfont',
-        mode: 1
+        mode: 1,
+        i18n: false
       }
     },
     props: {
@@ -92,6 +93,9 @@
       }
     },
     created() {
+      if (this.$i18n !== undefined) {
+        this.i18n = true
+      }
       // 初始化索引
       for (let i = 0; i < this.navInformation.length; i++) {
         this.navInformation[i].index = `${i + 1}`
