@@ -2,8 +2,24 @@
   background: transparent;
   padding: 10px 0 100px;
   border: 0; }
-  .el-menu.el-menu--horizontal li {
-    width: auto; }
+  .el-menu.el-menu--horizontal {
+    padding: 0; }
+    .el-menu.el-menu--horizontal > li {
+      float: left;
+      height: 100%;
+      width: auto; }
+      .el-menu.el-menu--horizontal > li ul {
+        height: 100%; }
+      .el-menu.el-menu--horizontal > li li {
+        height: 100%;
+        padding: 0; }
+      .el-menu.el-menu--horizontal > li a {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        padding: 0 20px;
+        position: relative; }
   .el-menu li {
     width: 100%;
     margin: 0;

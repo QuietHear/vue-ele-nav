@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .extra {
   overflow: hidden;
   .icon {
@@ -32,5 +33,35 @@
   }
   .el-menu-item-group__title {
     padding: 0 0 0 20px;
+  }
+  .el-submenu__title{
+    background: transparent !important;
+    > i {
+      z-index: 2;
+    }
+  }
+  &.el-menu--horizontal { // 横向一级菜单
+    .el-submenu__title {
+      height: 100%;
+      border-bottom: 0 !important;
+      padding: 0;
+      > i {
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+}
+
+.el-menu--horizontal { // 横向一级、二级菜单
+  .el-menu {
+    margin-top: 0;
+    padding: 0;
+    .el-menu-item {
+      background: transparent;
+    }
+    .el-menu-item-group__title {
+      padding: 0;
+    }
   }
 }

@@ -4,7 +4,7 @@
 */
 /*
 * @LastEditors: aFei
-* @LastEditTime: 2018-09-07 15:32:11
+* @LastEditTime: 2018-09-25 16:10:40
 */
 <template>
   <el-menu ref="tab"
@@ -13,7 +13,7 @@
            class="extra"
            :class=cname
            :style=myStyle
-           :default-openeds="opens"
+           :default-openeds="horizontal===true? [] : opens "
            :mode="horizontal===true? 'horizontal':'vertical'">
     <!--带子元素的-->
     <el-submenu :index=item.index
