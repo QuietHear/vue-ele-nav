@@ -113,4 +113,4 @@
 > * 是否开启手风琴模式:*accordion*-->Boolean;非必传;默认`false`
 
 ### 7. 样式
-> * 自定义颜色:组件上绑定cname后，复制原本的*.ele-nav*样式进行颜色
+> * 自定义颜色:组件上绑定cname后，复制原本的*.ele-nav*样式进行颜色，注意 在.el-menu--horizontal{}外层一定要加一层body，不然没法自定义横向样式

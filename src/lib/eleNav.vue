@@ -4,7 +4,7 @@
 */
 /*
 * @LastEditors: aFei
-* @LastEditTime: 2018-09-25 16:10:40
+* @LastEditTime: 2018-09-26 11:35:45
 */
 <template>
   <el-menu ref="tab"
@@ -271,6 +271,9 @@
 <style>
   /*必需的扩展*/
   @import "navExtra.css";
+</style>
+
+<style>
   /*默认颜色*/
   @import "cname.css";
 </style>
