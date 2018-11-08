@@ -24,6 +24,8 @@
   height: 60px; }
   .ele-nav.el-menu--horizontal a {
     line-height: 60px; }
+  .ele-nav.el-menu--horizontal i {
+    color: #a2adb8; }
   .ele-nav.el-menu--horizontal .replace_active:after {
     background-image: none;
     width: 100%;

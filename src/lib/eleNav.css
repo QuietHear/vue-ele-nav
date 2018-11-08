@@ -7,7 +7,7 @@
     .el-menu.el-menu--horizontal > li {
       float: left;
       height: 100%;
-      width: auto; }
+      width: 130px; }
       .el-menu.el-menu--horizontal > li ul {
         height: 100%; }
       .el-menu.el-menu--horizontal > li li {
@@ -15,11 +15,24 @@
         padding: 0; }
       .el-menu.el-menu--horizontal > li a {
         display: inline-block;
+        flex-wrap: wrap;
         width: 100%;
         height: 100%;
         overflow: hidden;
         padding: 0 20px;
-        position: relative; }
+        position: relative;
+        text-align: center; }
+        .el-menu.el-menu--horizontal > li a.hasIcon {
+          line-height: 140px; }
+        .el-menu.el-menu--horizontal > li a .icon {
+          position: absolute;
+          width: calc(100% - 40px);
+          height: 40px;
+          line-height: 40px;
+          left: 20px;
+          top: 15px;
+          margin-right: 0;
+          font-size: 44px; }
   .el-menu li {
     width: 100%;
     margin: 0;

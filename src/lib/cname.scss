@@ -45,6 +45,9 @@ $primary_nav_a_color: #a2adb8;
     a {
       line-height: 60px;
     }
+    i {
+      color: $primary_nav_a_color;
+    }
     .replace_active {
       &:after {
         background-image: none;
