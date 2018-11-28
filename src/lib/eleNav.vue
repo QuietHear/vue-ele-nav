@@ -4,7 +4,7 @@
 */
 /*
 * @LastEditors: aFei
-* @LastEditTime: 2018-11-08 17:00:43
+* @LastEditTime: 2018-11-28 14:03:21
 */
 <template>
   <el-menu ref="tab"
@@ -22,7 +22,8 @@
                 v-if="item.children!==undefined && item.children.length>0">
       <!--一级菜单-->
       <template slot="title">
-        <router-link :class="[item.active===true?'replace_active':'',item.iconName?'hasIcon':'']" :to="{name:item.linkName}">
+        <router-link :class="[item.active===true?'replace_active':'',item.iconName?'hasIcon':'']"
+                     :to="{name:item.linkName}">
           <i class="icon iconfont" :class="item.iconName"></i>
           {{i18n===true?$t(item.name):item.name}}
         </router-link>
@@ -45,7 +46,8 @@
                         class="else"
                         v-else>
       <el-menu-item :index=item.index>
-        <router-link :class="[item.active===true?'replace_active':'',item.iconName?'hasIcon':'']" :to="{name:item.linkName}">
+        <router-link :class="[item.active===true?'replace_active':'',item.iconName?'hasIcon':'']"
+                     :to="{name:item.linkName}">
           <i class="icon iconfont" :class="item.iconName"></i>
           {{i18n===true?$t(item.name):item.name}}
         </router-link>
@@ -147,6 +149,9 @@
     },
     methods: {
       saveOpen(indexInside, indexOutside) {
+        if (JSON.parse(sessionStorage.getItem('isLogin')) === false || (JSON.parse(sessionStorage.getItem('isLogin')) === null && JSON.parse(sessionStorage.getItem('navInformation')) === null)) {
+          return false;
+        }
         this.changeNavActive(indexOutside[0], indexOutside[1]);
       },
       changeNavActive(parent, child) { // 更新导航的激活点亮项
@@ -191,6 +196,9 @@
     watch: {
       $route() {
         let it = this;
+        if (JSON.parse(sessionStorage.getItem('isLogin')) === false) {
+          return false;
+        }
         if (this.$route.meta.markName !== undefined && this.$route.meta.markName !== '') {
           // 找到当前name对应的两个index
           let parent;
