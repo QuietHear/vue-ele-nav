@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define("VueLanguageSwitch", [], factory);
+		define("VueEleNav", [], factory);
 	else if(typeof exports === 'object')
-		exports["VueLanguageSwitch"] = factory();
+		exports["VueEleNav"] = factory();
 	else
-		root["VueLanguageSwitch"] = factory();
+		root["VueEleNav"] = factory();
 })(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -12288,6 +12288,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
  * @LastEditTime: 2018-08-28 11:02:27
  */
 
+
 const comment = {
   install(Vue) {
     Vue.component('eleNav', __WEBPACK_IMPORTED_MODULE_0__eleNav__["a" /* default */]);
@@ -12507,4 +12508,4 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ })
 /******/ ]);
 });
-//# sourceMappingURL=vue-language-switch.js.map
+//# sourceMappingURL=vue-ele-nav.js.map

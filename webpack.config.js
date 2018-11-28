@@ -6,8 +6,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'vue-language-switch.js',
-    library: 'VueLanguageSwitch',
+    filename: 'vue-ele-nav.js',
+    library: 'VueEleNav',
     libraryTarget: 'umd',
     umdNamedDefine: true,
   },
