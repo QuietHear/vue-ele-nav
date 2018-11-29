@@ -59,15 +59,15 @@
 ### 4. 声明
 >
 	//根目录下src--main.js文件中
-	import eleNav from 'vue-ele-nav'
+	import VueEleNav from 'vue-ele-nav'
 	//底下引用
-	Vue.use(eleNav)
+	Vue.use(VueEleNav)
 >
 
 ### 5. 使用
 >
 	//进入到使用页面，一般是main.vue文件
-	<ele-nav :navInformation="navInformation"></ele-nav>
+	<vue-ele-nav :navInformation="navInformation"></vue-ele-nav>
 	//navInformation获取demo
           let navInformation = [];
           let routeMsg = this.$router.options.routes.filter(function (item) {
