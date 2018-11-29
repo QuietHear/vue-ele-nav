@@ -4,7 +4,7 @@
 */
 /*
 * @LastEditors: aFei
-* @LastEditTime: 2018-11-28 14:03:21
+* @LastEditTime: 2018-11-29 10:32:53
 */
 <template>
   <el-menu ref="tab"
@@ -58,6 +58,7 @@
 
 <script>
   export default {
+    name:'VueEleNav',
     data() {
       return {
         opens: ['1'],
@@ -277,7 +278,7 @@
 
 <!--基础样式-->
 <style scoped>
-  @import "eleNav.css";
+  @import "VueEleNav.css";
 </style>
 
 <!--样式扩展-->
