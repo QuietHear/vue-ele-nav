@@ -2,11 +2,11 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  entry: './src/main.js',
+  entry: './lib/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'vue-ele-nav.js',
+    filename: 'vue-ele-nav.min.js',
     library: 'VueEleNav',
     libraryTarget: 'umd',
     umdNamedDefine: true,

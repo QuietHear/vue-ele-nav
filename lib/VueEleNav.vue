@@ -278,16 +278,16 @@
 
 <!--基础样式-->
 <style scoped>
-  @import "VueEleNav.css";
+  @import "style/VueEleNav.css";
 </style>
 
 <!--样式扩展-->
 <style>
   /*必需的扩展*/
-  @import "navExtra.css";
+  @import "style/navExtra.css";
 </style>
 
 <style>
   /*默认颜色*/
-  @import "cname.css";
+  @import "style/cname.css";
 </style>
