@@ -1,120 +1,169 @@
 # 基于element、权限、国际化的vue nav组件
 
-### 1. 适用范围
-* 所有模块路由平级展开，每个模块只有一个入口文件index.vue放置<router-view/>
-* 路由都是按照规范编写
-* 兼容i18n
+## 安装
+	npm i vue-ele-nav
 
-### 2. meta属性扩展
-> `title:''`必须有，导航和面包屑展示的标题内容
->
-> `show:false`是否展示在导航栏，只有false才不展示
->
-> `markName:''`代替点亮的导航name，show:false
->
->`parents:['a']`当前页面show：false，且它的前一个页面也是show:false的，以此类推，
+## 0. 组件说明
+##### ①. 依赖组件
+* element-ui
+* vue-router
+* 路由按照下方规范修改
+
+##### ②. 支持扩展
+* i18n
+* iconfont(class形式)
+
+## 1. 修改之前路由的meta属性(路由文件只能添加一层，其余全靠meta控制，必须遵循)
+* `title:''`：导航展示的标题内容
+* `icon:''`：iconfont(class形式)，需要先在本地加入iconfont
+* `show:false`：是否展示在导航栏，只有false才不展示
+* `markName:''`：代替当前路由点亮的导航的name，show:false时才生效
+* `parents:['a']`：当前页面show：false，且它的前一个页面也是show:false的，以此类推，
 从展示的页面开始，按照层级依次push对应的出自己外的隐藏页面的name
+* `replaceIndex: true`：当前页面是否在面包屑上与容器的名字合并，只有true才合并不显示自己的name
+* `changeMark:''/['a']`：写在每个调用公共页面的路由上，替换指定路由的markName，可以使用字符串，也可以使用数组，适用于多个页面同时使用同一个公共隐藏页面
+* `keepAlive:true`（需要改造页面）：永久开启页面缓存，只有为true为开启
+* `defaultAlive: true`（需要改造页面）：动态操作缓存时，想要复原初始化，必须写该属性才能恢复原值
 >
->`replaceIndex: true`当前页面是否在面包屑上与容器的名字合并，只有true才合并不显示自己的name
->
-> `changeMark:''/['a']`替换指定name的markName，可以使用字符串，也可以使用数组来改变多个公共页面，适用于多个页面同时使用同一个公共隐藏页面
-，每个调公共页面的都需要写
->
-> `keepAlive:true`永久开启页面缓存，只有为true为开启
->
-> `defaultAlive: true`动态操作缓存时，想要复原初始化，必须写该属性才能恢复原值
->>
-	//举个例子
-	//现在实现从a-b时关闭其缓存功能，其余页面进入时正常缓存（b默认时开启的）
+	// 前提，改造main页面<router-view>
+	<keep-alive>
+    	<router-view v-if="$route.meta.keepAlive===true"></router-view>
+    </keep-alive>
+    <router-view v-if="$route.meta.keepAlive!==true"></router-view>
 	//
-	//打开a页面，并编写js
+	// 使用方式：例如，现在实现从a-b时关闭其缓存功能，其余页面进入时正常缓存（b默认时开启的）
+	//
+	// 打开a页面，并编写js
 	beforeRouteLeave (to, from, next) {
 		if (to.name === 'b') {
 			to.meta.keepAlive = false;
 		}
 		next();
 	}
-	//打开b页面，并编写js
+	// 打开b页面，并编写js
 	beforeRouteLeave (to, from, next) {
 		if (from.meta.defaultAlive !== undefined) {
 			from.meta.keepAlive = from.meta.defaultAlive;
 		}
 		next();
 	}
->
-> 如果有子路由会被权限隐藏掉，需要给父路由加
->>
-	redirect: to => {
-    	let navInformation = JSON.parse(sessionStorage.getItem('navInformation'));
-	    navInformation = navInformation.filter(function (item) {
-	      return item.linkName === to.name;
-	    })[0];
-    	return navInformation.children[0].path;
+
+## 2. 参数
+* `permissionTemplate`：权限对照表-->Array;必传
+* `permissionList`：当前权限-->String;必传
+* `cname`：自定义class-->String;非必传;默认*'ele-nav'*
+* `myStyle`：自定义内联样式-->String;非必传;默认*''*
+* `horizontal`：开启横向导航-->Boolean;非必传;默认*false*
+* `accordion`：开启手风气模式-->Boolean;非必传;默认*false*
+* `i18n`：标题开启国际化-->Boolean;非必传;默认*false*
+
+## 3. 必传项获取（demo）
+	const permissionTemplate = { // 权限对照表--键值必须是路由文件的name
+		firstChild: '1',
+		firstChildHome: '1-1',
+		secondChild: '2',
+		secondChildA: '2-1',
+		secondChildB: '2-2'
+	};
+	const permissionList = ['1', '1-1', '2', '2-1']; // 当前权限
+
+
+## 4. 自定义class（demo）
+	@primary_color: #f49900; // 导航激活颜色
+	@primary_background_color: #1e2836; // 导航背景颜色
+	@primary_nav_a_color: #a2adb8; // 正常字体颜色
+	.views-nav {
+	  .replace_active, .replace_active_child {
+	    &, .icon {
+	      color: @primary_color !important;
+	    }
+	  }
+	  .replace_active {
+	    &:after {
+	      content: '';
+	      position: absolute;
+	      top: 0;
+	      left: 0;
+	      width: 150%;
+	      height: 100%;
+	      opacity: 0.3;
+	      background-image: -webkit-linear-gradient(
+	          0deg,
+	          @primary_color 0%,
+	          @primary_background_color 25%
+	      );
+	      z-index: -1;
+	      box-sizing: border-box;
+	      animation: navGradient 1s 1;
+	      -webkit-animation: navGradient 1s 1;
+	    }
+	  }
+	  .el-menu {
+	    background-color: darken(@primary_background_color, 3%);
+	  }
+	  li {
+	    a {
+	      color: @primary_nav_a_color;
+	      &:hover {
+	        background-color: lighten(@primary_background_color, 5%) !important;
+	      }
+	    }
+	  }
+	  &.el-menu--horizontal { // 横向一级菜单
+	    background: @primary_background_color !important;
+	    height: 60px;
+	    a {
+	      line-height: 60px;
+	    }
+	    i {
+	      color: @primary_nav_a_color;
+	    }
+	    .replace_active {
+	      &:after {
+	        background-image: none;
+	        width: 100%;
+	        border-bottom: 4px solid @primary_color;
+	        opacity: 1;
+	        animation: navGradient1 0.4s 1 ease-in-out;
+	        -webkit-animation: navGradient1 0.4s 1 ease-in-out;
+	      }
+	    }
+	  }
 	}
->
-
-### 3. 安装依赖
-> npm i vue-ele-nav
-
-### 4. 声明
->
-	//根目录下src--main.js文件中
-	import VueEleNav from 'vue-ele-nav'
-	//底下引用
-	Vue.use(VueEleNav)
->
-
-### 5. 使用
->
-	//进入到使用页面，一般是main.vue文件
-	<vue-ele-nav :navInformation="navInformation"></vue-ele-nav>
-	//navInformation获取demo
-          let navInformation = [];
-          let routeMsg = this.$router.options.routes.filter(function (item) {
-            return item.name === 'main' // 根据当前项目最外层name容器修改
-          })[0].children;
-          navInformation = routeMsg
-            .filter(function (item) {
-              return item.meta.show !== false
-            })
-            .map(function (item) {
-              let arr = [];
-              if (item.children !== undefined && item.children.length > 0) {
-                arr = item.children
-                  .filter(function (item) {
-                    return item.meta.show !== false
-                  })
-                  .map(function (one) {
-                    return {
-                      linkName: one.name,
-                      path: `/${item.path}/${one.path}`,
-                      iconName: one.meta.icon,
-                      active: false,
-                      name: one.meta.title
-                    }
-                  });
-              }
-              return {
-                linkName: item.name,
-                path: `/${item.path}`,
-                name: item.meta.title,
-                iconName: item.meta.icon,
-                active: false,
-                children: arr
-              }
-            });
->
-
-### 6. 参数
-> * 导航信息:*navInformation*-->Array;必传
-> * 自定义class:*cname*-->String;非必传;默认`'ele-nav'`
-> * 自定义内联样式:*myStyle*-->String;非必传;默认`''`
-> * 是否开启横向导航:*horizontal*-->Boolean;非必传;默认`false`
-> * 是否开启手风琴模式:*accordion*-->Boolean;非必传;默认`false`
-
-### 7. 样式
-> * 自定义颜色:组件上绑定cname后，复制原本的*.ele-nav*样式进行颜色，注意 在.el-menu--horizontal{}外层一定要加一层body，不然没法自定义横向样式
-
-
-### 8.登录相关
-> 若系统记录了登录状态，且有人非法继续进行操作，建议使用`sessionStorage.getItem('isLogin')`记录登录状态，false时为未登录状态，不会进行任何操作
+	// 横向一级、二级菜单
+	body{
+		.el-menu--horizontal {
+		  a {
+		    color: @primary_nav_a_color;
+		    &.replace_active_child {
+		      color: @primary_color;
+		    }
+		    &:hover {
+		      background-color: lighten(@primary_background_color, 5%) !important;
+		    }
+		  }
+		  .el-menu {
+		    background-color: darken(@primary_background_color, 3%);
+		  }
+		}
+	}
+	// 导航垂直方向动画
+	@keyframes navGradient {
+	  0% {
+	    left: -50%;
+	  }
+	  100% {
+	    left: 0;
+	  }
+	}
+	// 导航横向方向动画
+	@keyframes navGradient1 {
+	  0% {
+	    left: 50%;
+	    width: 0;
+	  }
+	  100% {
+	    left: 0;
+	    width: 100%;
+	  }
+	}

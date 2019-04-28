@@ -1,6 +1,6 @@
-@primary_color: #f49900;
-@primary_background_color: #1e2836;
-@primary_nav_a_color: #a2adb8;
+@primary_color: #f49900; // 导航激活颜色
+@primary_background_color: #1e2836; // 导航背景颜色
+@primary_nav_a_color: #a2adb8; // 正常字体颜色
 .ele-nav {
   .replace_active, .replace_active_child {
     &, .icon {
@@ -86,48 +86,8 @@
   }
 }
 
-@-webkit-keyframes navGradient {
-  0% {
-    left: -50%;
-  }
-  100% {
-    left: 0;
-  }
-}
-
-@-moz-keyframes navGradient {
-  from {
-    left: -50%;
-  }
-  to {
-    left: 0;
-  }
-}
-
 // 导航横向方向动画
 @keyframes navGradient1 {
-  0% {
-    left: 50%;
-    width: 0;
-  }
-  100% {
-    left: 0;
-    width: 100%;
-  }
-}
-
-@-webkit-keyframes navGradient1 {
-  0% {
-    left: 50%;
-    width: 0;
-  }
-  100% {
-    left: 0;
-    width: 100%;
-  }
-}
-
-@-moz-keyframes navGradient1 {
   0% {
     left: 50%;
     width: 0;

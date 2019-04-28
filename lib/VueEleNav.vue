@@ -4,7 +4,7 @@
 */
 /*
 * @LastEditors: aFei
-* @LastEditTime: 2018-11-29 10:32:53
+* @LastEditTime: 2019-04-28 16:03:08
 */
 <template>
   <el-menu ref="tab"
@@ -58,104 +58,134 @@
 
 <script>
   export default {
-    name:'VueEleNav',
+    name: 'VueEleNav',
     data() {
       return {
         opens: ['1'],
         normalClass: 'icon iconfont',
-        mode: 1,
-        i18n: false
+        navInformation: [],
+        mode: 1
       }
     },
     props: {
-      navInformation: {
-        type: Array,
+      permissionTemplate: { // 权限对照表
+        type: Object,
         required: true
       },
-      cname: {
+      permissionList: { // 当前权限
+        type: String,
+        required: true
+      },
+      cname: { // 自定义class
         type: String,
         default: 'ele-nav'
       },
-      myStyle: {
+      myStyle: { // 自定义内联样式
         type: String,
         default: ''
       },
-      horizontal: {
+      horizontal: { // 开启横向导航
         type: Boolean,
         default: false
       },
-      accordion: {
+      accordion: { // 开启手风气模式
+        type: Boolean,
+        default: false
+      },
+      i18n: { // 标题开启国际化
         type: Boolean,
         default: false
       }
     },
     created() {
-      // 国际化检测
-      if (this.$i18n !== undefined) {
-        this.i18n = true;
-      }
-      // 初始化索引
-      for (let i = 0; i < this.navInformation.length; i++) {
-        this.navInformation[i].index = `${i + 1}`;
-        if (this.navInformation[i].children !== undefined && this.navInformation[i].children.length > 0) {
-          for (let y = 0; y < this.navInformation[i].children.length; y++) {
-            this.navInformation[i].children[y].index = `${i + 1}-${y + 1}`;
-          }
-        }
-      }
-      if (sessionStorage.getItem('navActiveName') !== '') {
-        // 恢复当前激活的菜单
-        let name = '';
-        if (this.$route.meta.markName !== undefined && this.$route.meta.markName !== '') {
-          name = this.$route.meta.markName;
-        }
-        else {
-          name = this.$route.name;
-        }
-        let parent = this.navInformation.filter(function (item) {
-          return item.linkName === name;
-        });
-        // 如果有二级菜单
-        if (parent.length === 0) {
-          parent = this.navInformation.filter(function (item) {
-            let bol = false;
-            let arr = [];
-            if (item.children.length > 0) {
-              arr = item.children.filter(function (one) {
-                return one.linkName === name
-              })
+      const routeMsg = this.$router.options.routes.filter(function (item) {
+        return item.name === 'main';
+      })[0].children;
+      // 初始化导航
+      let it = this;
+      this.navInformation = routeMsg.filter(function (item) {
+        return (item.meta.show !== false && it.permissionList.indexOf(`,${it.permissionTemplate[item.name]},`) !== -1);
+      }).map(function (item, i) {
+        let arr = [];
+        if (item.children !== undefined && item.children.length > 0) {
+          arr = item.children.filter(function (item) {
+            return (item.meta.show !== false && it.permissionList.indexOf(`,${it.permissionTemplate[item.name]},`) !== -1);
+          }).map(function (one, y) {
+            return {
+              linkName: one.name,
+              path: `/${item.path}/${one.path}`,
+              index: `${i + 1}-${y + 1}`,
+              iconName: one.meta.icon,
+              active: false,
+              name: one.meta.title
             }
-            if (arr.length > 0) {
-              bol = true
-            }
-            return bol
           });
-          parent[0].children.filter(function (item) {
-            return item.linkName === name;
-          })[0].active = true;
-          sessionStorage.setItem('navActiveChildIndex', parent[0].children.filter(function (item) {
-            return item.linkName === name;
-          })[0].index);
         }
-        else {
-          sessionStorage.setItem('navActiveChildIndex', '');
+        return {
+          linkName: item.name,
+          path: `/${item.path}`,
+          index: `${i + 1}`,
+          name: item.meta.title,
+          iconName: item.meta.icon,
+          active: false,
+          children: arr
         }
-        // 点亮一级菜单
-        parent[0].active = true;
-        // 存储当前激活的菜单
-        sessionStorage.setItem('navActiveParentIndex', parent[0].index);
-        // 初始化打开项
-        this.opens = [parent[0].index];
+      });
+      if (this.$route.name === 'main') {
+        sessionStorage.setItem('navActiveParentIndex', '1');
+        sessionStorage.setItem('navActiveChildIndex', this.navInformation[0].children.length > 0 ? '1-1' : '');
+        this.$router.push({name: this.navInformation[0].linkName});
+      } else {
+        if (sessionStorage.getItem('navActiveName') !== '') {
+          // 恢复当前激活的菜单
+          let name = '';
+          if (this.$route.meta.markName !== undefined && this.$route.meta.markName !== '') {
+            name = this.$route.meta.markName;
+          } else {
+            name = this.$route.name;
+          }
+          let parent = this.navInformation.filter(function (item) {
+            return item.linkName === name;
+          });
+          // 如果有二级菜单
+          if (parent.length === 0) {
+            parent = this.navInformation.filter(function (item) {
+              let bol = false;
+              let arr = [];
+              if (item.children.length > 0) {
+                arr = item.children.filter(function (one) {
+                  return one.linkName === name
+                })
+              }
+              if (arr.length > 0) {
+                bol = true
+              }
+              return bol
+            });
+            parent[0].children.filter(function (item) {
+              return item.linkName === name;
+            })[0].active = true;
+            sessionStorage.setItem('navActiveChildIndex', parent[0].children.filter(function (item) {
+              return item.linkName === name;
+            })[0].index);
+          } else {
+            sessionStorage.setItem('navActiveChildIndex', '');
+          }
+          // 点亮一级菜单
+          parent[0].active = true;
+          // 存储当前激活的菜单
+          sessionStorage.setItem('navActiveParentIndex', parent[0].index);
+          // 初始化打开项
+          this.opens = [parent[0].index];
+        }
       }
     },
     methods: {
       saveOpen(indexInside, indexOutside) {
-        if (JSON.parse(sessionStorage.getItem('isLogin')) === false || (JSON.parse(sessionStorage.getItem('isLogin')) === null && JSON.parse(sessionStorage.getItem('navInformation')) === null)) {
-          return false;
-        }
         this.changeNavActive(indexOutside[0], indexOutside[1]);
       },
       changeNavActive(parent, child) { // 更新导航的激活点亮项
+
         // 清除之前激活的菜单
         if (sessionStorage.getItem('navActiveChildIndex') !== '') {
           this.navInformation.filter(function (item) {
@@ -176,8 +206,7 @@
         if (child === '' && parent === '') {
           // 存储当前激活项的name，方便为非正常跳转做对比
           sessionStorage.setItem('navActiveName', '');
-        }
-        else {
+        } else {
           let obj = this.navInformation.filter(function (item) {
             return item.index === parent;
           })[0];
@@ -197,62 +226,28 @@
     watch: {
       $route() {
         let it = this;
-        if (JSON.parse(sessionStorage.getItem('isLogin')) === false) {
-          return false;
-        }
-        if (this.$route.meta.markName !== undefined && this.$route.meta.markName !== '') {
-          // 找到当前name对应的两个index
-          let parent;
-          let child;
-          parent = this.navInformation.filter(function (item) {
-            return item.linkName === it.$route.meta.markName;
-          });
-          if (parent.length > 0) { // 第一层已经找到标记nav
-            this.changeNavActive(parent[0].index);
-          }
-          else { // 标记nav在第二层
-            parent = this.navInformation.filter(function (item) {
-              let isTrue = false;
-              let arr = [];
-              if (item.children.length > 0) {
-                arr = item.children.filter(function (one) {
-                  return one.linkName === it.$route.meta.markName;
-                });
-                if (arr.length > 0) {
-                  isTrue = true;
-                }
-              }
-              return isTrue;
-            });
-            if (parent.length > 0) { // 当前路由在导航里
-              child = parent[0].children.filter(function (item) {
-                return item.linkName === it.$route.meta.markName;
-              });
-              this.changeNavActive(parent[0].index, child[0].index);
-            }
-            else { // 当前路由不在导航里
-              this.changeNavActive('', '');
-            }
-          }
-          this.opens = [sessionStorage.getItem('navActiveParentIndex')];
-        }
-        else {
-          if (this.$route.name !== sessionStorage.getItem('navActiveName')) {
+        let lin = this.navInformation.filter(function (item) {
+          return item.linkName === it.$route.name;
+        });
+        if (lin.length > 0 && lin[0].children.length > 0) {
+          this.$router.push({name: lin[0].children[0].linkName});
+        } else {
+          if (this.$route.meta.markName !== undefined && this.$route.meta.markName !== '') {
             // 找到当前name对应的两个index
             let parent;
             let child;
             parent = this.navInformation.filter(function (item) {
-              return item.linkName === it.$route.name;
+              return item.linkName === it.$route.meta.markName;
             });
-            if (parent.length > 0) {
+            if (parent.length > 0) { // 第一层已经找到标记nav
               this.changeNavActive(parent[0].index);
-            }
-            else {
+            } else { // 标记nav在第二层
               parent = this.navInformation.filter(function (item) {
                 let isTrue = false;
+                let arr = [];
                 if (item.children.length > 0) {
-                  let arr = item.children.filter(function (one) {
-                    return one.linkName === it.$route.name;
+                  arr = item.children.filter(function (one) {
+                    return one.linkName === it.$route.meta.markName;
                   });
                   if (arr.length > 0) {
                     isTrue = true;
@@ -260,15 +255,48 @@
                 }
                 return isTrue;
               });
-              child = parent[0].children.filter(function (item) {
-                return item.linkName === it.$route.name;
-              });
-              this.changeNavActive(parent[0].index, child[0].index);
+              if (parent.length > 0) { // 当前路由在导航里
+                child = parent[0].children.filter(function (item) {
+                  return item.linkName === it.$route.meta.markName;
+                });
+                this.changeNavActive(parent[0].index, child[0].index);
+              } else { // 当前路由不在导航里
+                this.changeNavActive('', '');
+              }
             }
             this.opens = [sessionStorage.getItem('navActiveParentIndex')];
-          }
-          else {
-            // 用户点击
+          } else {
+            if (this.$route.name !== sessionStorage.getItem('navActiveName')) {
+              // 找到当前name对应的两个index
+              let parent;
+              let child;
+              parent = this.navInformation.filter(function (item) {
+                return item.linkName === it.$route.name;
+              });
+              if (parent.length > 0) {
+                this.changeNavActive(parent[0].index);
+              } else {
+                parent = this.navInformation.filter(function (item) {
+                  let isTrue = false;
+                  if (item.children.length > 0) {
+                    let arr = item.children.filter(function (one) {
+                      return one.linkName === it.$route.name;
+                    });
+                    if (arr.length > 0) {
+                      isTrue = true;
+                    }
+                  }
+                  return isTrue;
+                });
+                child = parent[0].children.filter(function (item) {
+                  return item.linkName === it.$route.name;
+                });
+                this.changeNavActive(parent[0].index, child[0].index);
+              }
+              this.opens = [sessionStorage.getItem('navActiveParentIndex')];
+            } else {
+              // 用户点击
+            }
           }
         }
       }
