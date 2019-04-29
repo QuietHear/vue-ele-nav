@@ -22,31 +22,6 @@
 从展示的页面开始，按照层级依次push对应的出自己外的隐藏页面的name
 * `replaceIndex: true`：当前页面是否在面包屑上与容器的名字合并，只有true才合并不显示自己的name
 * `changeMark:''/['a']`：写在每个调用公共页面的路由上，替换指定路由的markName，可以使用字符串，也可以使用数组，适用于多个页面同时使用同一个公共隐藏页面
-* `keepAlive:true`（需要改造页面）：永久开启页面缓存，只有为true为开启
-* `defaultAlive: true`（需要改造页面）：动态操作缓存时，想要复原初始化，必须写该属性才能恢复原值
->
-	// 前提，改造main页面<router-view>
-	<keep-alive>
-    	<router-view v-if="$route.meta.keepAlive===true"></router-view>
-    </keep-alive>
-    <router-view v-if="$route.meta.keepAlive!==true"></router-view>
-	//
-	// 使用方式：例如，现在实现从a-b时关闭其缓存功能，其余页面进入时正常缓存（b默认时开启的）
-	//
-	// 打开a页面，并编写js
-	beforeRouteLeave (to, from, next) {
-		if (to.name === 'b') {
-			to.meta.keepAlive = false;
-		}
-		next();
-	}
-	// 打开b页面，并编写js
-	beforeRouteLeave (to, from, next) {
-		if (from.meta.defaultAlive !== undefined) {
-			from.meta.keepAlive = from.meta.defaultAlive;
-		}
-		next();
-	}
 
 ## 2. 参数
 * `permissionTemplate`：权限对照表-->Array;必传
