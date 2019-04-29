@@ -4,7 +4,7 @@
 */
 /*
 * @LastEditors: aFei
-* @LastEditTime: 2019-04-28 16:03:08
+* @LastEditTime: 2019-04-29 09:21:21
 */
 <template>
   <el-menu ref="tab"
@@ -98,19 +98,19 @@
       }
     },
     created() {
-      const routeMsg = this.$router.options.routes.filter(function (item) {
+      const routeMsg = this.$router.options.routes.filter(item => {
         return item.name === 'main';
       })[0].children;
       // 初始化导航
       let it = this;
-      this.navInformation = routeMsg.filter(function (item) {
-        return (item.meta.show !== false && it.permissionList.indexOf(`,${it.permissionTemplate[item.name]},`) !== -1);
-      }).map(function (item, i) {
+      this.navInformation = routeMsg.filter(item => {
+        return item.meta.show !== false && it.permissionList.indexOf(`,${it.permissionTemplate[item.name]},`) !== -1;
+      }).map((item, i) => {
         let arr = [];
         if (item.children !== undefined && item.children.length > 0) {
-          arr = item.children.filter(function (item) {
-            return (item.meta.show !== false && it.permissionList.indexOf(`,${it.permissionTemplate[item.name]},`) !== -1);
-          }).map(function (one, y) {
+          arr = item.children.filter(item => {
+            return item.meta.show !== false && it.permissionList.indexOf(`,${it.permissionTemplate[item.name]},`) !== -1;
+          }).map((one, y) => {
             return {
               linkName: one.name,
               path: `/${item.path}/${one.path}`,
@@ -131,12 +131,13 @@
           children: arr
         }
       });
+      // 判断是否是首页然后跳转
       if (this.$route.name === 'main') {
-        sessionStorage.setItem('navActiveParentIndex', '1');
-        sessionStorage.setItem('navActiveChildIndex', this.navInformation[0].children.length > 0 ? '1-1' : '');
+        sessionStorage.setItem('vueNavActiveParentIndex', '1');
+        sessionStorage.setItem('vueNavActiveChildIndex', this.navInformation[0].children.length > 0 ? '1-1' : '');
         this.$router.push({name: this.navInformation[0].linkName});
       } else {
-        if (sessionStorage.getItem('navActiveName') !== '') {
+        if (sessionStorage.getItem('vueNavActiveName') !== '') {
           // 恢复当前激活的菜单
           let name = '';
           if (this.$route.meta.markName !== undefined && this.$route.meta.markName !== '') {
@@ -144,37 +145,37 @@
           } else {
             name = this.$route.name;
           }
-          let parent = this.navInformation.filter(function (item) {
+          let parent = this.navInformation.filter(item => {
             return item.linkName === name;
           });
           // 如果有二级菜单
           if (parent.length === 0) {
-            parent = this.navInformation.filter(function (item) {
+            parent = this.navInformation.filter(item => {
               let bol = false;
               let arr = [];
               if (item.children.length > 0) {
-                arr = item.children.filter(function (one) {
-                  return one.linkName === name
+                arr = item.children.filter(one => {
+                  return one.linkName === name;
                 })
               }
               if (arr.length > 0) {
-                bol = true
+                bol = true;
               }
-              return bol
+              return bol;
             });
-            parent[0].children.filter(function (item) {
+            parent[0].children.filter(item => {
               return item.linkName === name;
             })[0].active = true;
-            sessionStorage.setItem('navActiveChildIndex', parent[0].children.filter(function (item) {
+            sessionStorage.setItem('vueNavActiveChildIndex', parent[0].children.filter(item => {
               return item.linkName === name;
             })[0].index);
           } else {
-            sessionStorage.setItem('navActiveChildIndex', '');
+            sessionStorage.setItem('vueNavActiveChildIndex', '');
           }
           // 点亮一级菜单
           parent[0].active = true;
           // 存储当前激活的菜单
-          sessionStorage.setItem('navActiveParentIndex', parent[0].index);
+          sessionStorage.setItem('vueNavActiveParentIndex', parent[0].index);
           // 初始化打开项
           this.opens = [parent[0].index];
         }
@@ -187,66 +188,66 @@
       changeNavActive(parent, child) { // 更新导航的激活点亮项
 
         // 清除之前激活的菜单
-        if (sessionStorage.getItem('navActiveChildIndex') !== '') {
-          this.navInformation.filter(function (item) {
-            return item.index === sessionStorage.getItem('navActiveParentIndex');
-          })[0].children.filter(function (item) {
-            return item.index === sessionStorage.getItem('navActiveChildIndex');
+        if (sessionStorage.getItem('vueNavActiveChildIndex') !== '') {
+          this.navInformation.filter(item => {
+            return item.index === sessionStorage.getItem('vueNavActiveParentIndex');
+          })[0].children.filter(item => {
+            return item.index === sessionStorage.getItem('vueNavActiveChildIndex');
           })[0].active = false;
         }
-        if (sessionStorage.getItem('navActiveParentIndex') !== '') {
-          this.navInformation.filter(function (item) {
-            return item.index === sessionStorage.getItem('navActiveParentIndex');
+        if (sessionStorage.getItem('vueNavActiveParentIndex') !== '') {
+          this.navInformation.filter(item => {
+            return item.index === sessionStorage.getItem('vueNavActiveParentIndex');
           })[0].active = false;
         }
         // 存储当前激活的菜单
-        sessionStorage.setItem('navActiveParentIndex', parent);
-        sessionStorage.setItem('navActiveChildIndex', child !== undefined ? child : '');
+        sessionStorage.setItem('vueNavActiveParentIndex', parent);
+        sessionStorage.setItem('vueNavActiveChildIndex', child !== undefined ? child : '');
         // 点亮当前激活的菜单
         if (child === '' && parent === '') {
           // 存储当前激活项的name，方便为非正常跳转做对比
-          sessionStorage.setItem('navActiveName', '');
+          sessionStorage.setItem('vueNavActiveName', '');
         } else {
-          let obj = this.navInformation.filter(function (item) {
+          let obj = this.navInformation.filter(item => {
             return item.index === parent;
           })[0];
           // 如果有二级菜单
           if (child !== undefined) {
             obj.active = true; // 点亮一级菜单
-            obj = obj.children.filter(function (item) {
+            obj = obj.children.filter(item => {
               return item.index === child;
             })[0];
           }
           obj.active = true;
           // 存储当前激活项的name，方便为非正常跳转做对比
-          sessionStorage.setItem('navActiveName', obj.linkName);
+          sessionStorage.setItem('vueNavActiveName', obj.linkName);
         }
       }
     },
     watch: {
       $route() {
         let it = this;
-        let lin = this.navInformation.filter(function (item) {
+        let lin = this.navInformation.filter(item => {
           return item.linkName === it.$route.name;
         });
-        if (lin.length > 0 && lin[0].children.length > 0) {
+        if (lin.length > 0 && lin[0].children.length > 0) { // 有二级菜单的自动跳转到第一个子菜单
           this.$router.push({name: lin[0].children[0].linkName});
         } else {
           if (this.$route.meta.markName !== undefined && this.$route.meta.markName !== '') {
             // 找到当前name对应的两个index
             let parent;
             let child;
-            parent = this.navInformation.filter(function (item) {
+            parent = this.navInformation.filter(item => {
               return item.linkName === it.$route.meta.markName;
             });
             if (parent.length > 0) { // 第一层已经找到标记nav
               this.changeNavActive(parent[0].index);
             } else { // 标记nav在第二层
-              parent = this.navInformation.filter(function (item) {
+              parent = this.navInformation.filter(item => {
                 let isTrue = false;
                 let arr = [];
                 if (item.children.length > 0) {
-                  arr = item.children.filter(function (one) {
+                  arr = item.children.filter(one => {
                     return one.linkName === it.$route.meta.markName;
                   });
                   if (arr.length > 0) {
@@ -256,7 +257,7 @@
                 return isTrue;
               });
               if (parent.length > 0) { // 当前路由在导航里
-                child = parent[0].children.filter(function (item) {
+                child = parent[0].children.filter(item => {
                   return item.linkName === it.$route.meta.markName;
                 });
                 this.changeNavActive(parent[0].index, child[0].index);
@@ -264,22 +265,22 @@
                 this.changeNavActive('', '');
               }
             }
-            this.opens = [sessionStorage.getItem('navActiveParentIndex')];
+            this.opens = [sessionStorage.getItem('vueNavActiveParentIndex')];
           } else {
-            if (this.$route.name !== sessionStorage.getItem('navActiveName')) {
+            if (this.$route.name !== sessionStorage.getItem('vueNavActiveName')) {
               // 找到当前name对应的两个index
               let parent;
               let child;
-              parent = this.navInformation.filter(function (item) {
+              parent = this.navInformation.filter(item => {
                 return item.linkName === it.$route.name;
               });
               if (parent.length > 0) {
                 this.changeNavActive(parent[0].index);
               } else {
-                parent = this.navInformation.filter(function (item) {
+                parent = this.navInformation.filter(item => {
                   let isTrue = false;
                   if (item.children.length > 0) {
-                    let arr = item.children.filter(function (one) {
+                    let arr = item.children.filter(one => {
                       return one.linkName === it.$route.name;
                     });
                     if (arr.length > 0) {
@@ -288,12 +289,12 @@
                   }
                   return isTrue;
                 });
-                child = parent[0].children.filter(function (item) {
+                child = parent[0].children.filter(item => {
                   return item.linkName === it.$route.name;
                 });
                 this.changeNavActive(parent[0].index, child[0].index);
               }
-              this.opens = [sessionStorage.getItem('navActiveParentIndex')];
+              this.opens = [sessionStorage.getItem('vueNavActiveParentIndex')];
             } else {
               // 用户点击
             }
