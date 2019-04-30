@@ -307,7 +307,7 @@
 
 <!--基础样式-->
 <style scoped>
-  @import "style/VueEleNav.css";
+  @import "style/vueEleNav.css";
 </style>
 
 <!--样式扩展-->
