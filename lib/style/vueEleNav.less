@@ -1,0 +1,97 @@
+/*
+ * @LastEditors: afei
+ * @LastEditTime: 2020-12-22 15:34:32
+*/
+.el-menu.vue-ele-nav {
+  background: transparent;
+  padding: 10px 0 100px;
+  border: 0;
+  &.el-menu--horizontal { // 横向一级菜单
+    padding: 0;
+    .out-box{
+      display: inline-block;
+    }
+    a{
+      padding-right: 20px;
+    }
+    .el-submenu__icon-arrow{ // 下拉按钮
+      right: 4px;
+    }
+  }
+  .el-menu-item,
+  .el-submenu__title{ // 内边距清0
+    padding: 0 !important;
+  }
+  .el-submenu{ // 多级菜单边距
+    &.first{ // 二级
+      .el-menu{
+        a{
+          padding-left: 40px;
+        }
+      }
+    }
+    &.second{ // 三级
+      .el-menu{
+        a{
+          padding-left: 60px;
+        }
+      }
+    }
+    &.third{ // 四级
+      .el-menu{
+        a{
+          padding-left: 80px;
+        }
+      }
+    }
+  }
+  a{
+    display: block;
+    padding-left: 20px;
+    position: relative;
+    user-select: none;
+    i{
+      vertical-align: baseline;
+    }
+  }
+  .el-submenu__icon-arrow{ // 下拉按钮
+    height: 100%;
+    top: 0;
+    margin-top: 0;
+    z-index: 3;
+  }
+}
+// 横向次级菜单
+body>.el-menu--horizontal {
+  .el-menu{
+    margin-top: 0;
+    padding: 0;
+    .el-menu-item,
+    .el-submenu__title{
+      background: transparent;
+    }
+  }
+  .el-menu--popup-right-start{
+    margin: 0;
+  }
+  .el-menu-item,
+  .el-submenu__title{ // 内边距清0
+    padding: 0 !important;
+  }
+  a{
+    display: block;
+    padding-left: 10px;
+    position: relative;
+    user-select: none;
+    i{
+      vertical-align: baseline;
+    }
+  }
+  .el-submenu__icon-arrow{ // 下拉按钮
+    right: 10px;
+    height: 100%;
+    top: 0;
+    margin-top: 0;
+    z-index: 3;
+  }
+}

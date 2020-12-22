@@ -1,0 +1,153 @@
+/*
+ * @LastEditors: afei
+ * @LastEditTime: 2020-12-22 15:58:48
+*/
+@primary_background_color: #1e2836; // 导航背景颜色，只建议加横向的，竖直方向height不会占满
+@nav_text_color:#a2adb8; // 导航字体颜色
+@sle_color:#a2adb8; // 下拉颜色
+@primary_color: #f49900; // 导航激活颜色
+@nav_item_height: 60px; // 导航每级高度--也是横向导航高度
+@nav_item_else_height: 40px; // 横向次级导航每级高度
+.el-menu.extra  {
+  &.el-menu--horizontal { // 横向一级菜单
+    background: @primary_background_color;
+    .replace-active{ // 一级菜单激活状态
+      &:after{
+        width: 100%;
+        opacity: 1;
+        background-image: none;
+        animation: navGradient1 0.4s 1 ease-in-out;
+        border-bottom: 4px solid @primary_color;
+      }
+    }
+  }
+  a{
+    color: @nav_text_color;
+    i{
+      color: @nav_text_color;
+    }
+  }
+  .el-submenu__icon-arrow{ // 下拉按钮
+    line-height: @nav_item_height;
+    color: @sle_color;
+  }
+  .el-menu-item, //次级菜单
+  .el-submenu__title { // 一级菜单
+      height: @nav_item_height;
+      line-height: @nav_item_height;
+      &:hover{
+        background-color: lighten(@primary_background_color, 5%);
+      }
+      &:focus{
+        background-color: @primary_background_color;
+      }
+  }
+  .el-submenu{ // 多级菜单背景色
+    &.first{ // 二级
+      .el-menu{
+        background-color: darken(@primary_background_color, 3%);
+      } 
+    }
+    &.second{ // 三级
+      .el-menu{
+        background-color: darken(@primary_background_color, 6%);
+      } 
+    }
+    &.third{ // 四级
+      .el-menu{
+        background-color: darken(@primary_background_color, 9%);
+      } 
+    }
+  }
+  .replace-active{ // 一级菜单激活状态
+    &:after{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 150%;
+      height: 100%;
+      opacity: 0.4;
+      z-index: 1;
+      background-image: -webkit-linear-gradient(0deg,@primary_color 0%,transparent 25%);
+      box-sizing: border-box;
+      animation: navGradient 1s 1;
+    }
+  }
+  .replace-active,
+  .replace-active-child { // 所有激活字体颜色
+    color: @primary_color;
+    i{
+      color: @primary_color;
+    }
+  }
+}
+// 竖直动画
+@keyframes navGradient {
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: 0;
+  }
+}
+// 横向动画
+@keyframes navGradient1 {
+  0% {
+    left: 50%;
+    width: 0;
+  }
+  100% {
+    left: 0;
+    width: 100%;
+  }
+}
+// 横向次级菜单
+body>.el-menu--horizontal {
+  .el-menu{
+    .el-menu-item,
+    .el-submenu__title{
+      height: @nav_item_else_height;
+      line-height: @nav_item_else_height;
+    }
+  }
+  .el-submenu__title:hover{ // 一级菜单hover
+    background-color: lighten(@primary_background_color, 5%)
+  }
+  .el-menu-item:hover, 
+  .el-menu-item:focus{ // 次级菜单hover
+    background-color: lighten(@primary_background_color, 5%)
+  }
+  .el-submenu{ // 多级菜单背景色
+    &.second{ // 三级
+      .el-menu{
+        background-color: darken(@primary_background_color, 6%);
+      } 
+    }
+    &.third{ // 四级
+      .el-menu{
+        background-color: darken(@primary_background_color, 9%);
+      } 
+    }
+  }
+  .el-menu{ // 二级
+    background-color: darken(@primary_background_color, 3%);
+  }
+  a{
+    color: @nav_text_color;
+    i{
+      color: @nav_text_color;
+    }
+  }
+  .replace-active,
+  .replace-active-child { // 所有激活字体颜色
+    color: @primary_color;
+    i{
+      color: @primary_color;
+    }
+  }
+  .el-submenu__icon-arrow{ // 下拉按钮
+    line-height: @nav_item_else_height;
+    color: @sle_color;
+  }
+}

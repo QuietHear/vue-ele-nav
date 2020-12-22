@@ -1,0 +1,80 @@
+/*
+ * @LastEditors: afei
+ * @LastEditTime: 2020-12-22 15:34:32
+*/
+.el-menu.vue-ele-nav {
+  background: transparent;
+  padding: 10px 0 100px;
+  border: 0;
+}
+.el-menu.vue-ele-nav.el-menu--horizontal {
+  padding: 0;
+}
+.el-menu.vue-ele-nav.el-menu--horizontal .out-box {
+  display: inline-block;
+}
+.el-menu.vue-ele-nav.el-menu--horizontal a {
+  padding-right: 20px;
+}
+.el-menu.vue-ele-nav.el-menu--horizontal .el-submenu__icon-arrow {
+  right: 4px;
+}
+.el-menu.vue-ele-nav .el-menu-item,
+.el-menu.vue-ele-nav .el-submenu__title {
+  padding: 0 !important;
+}
+.el-menu.vue-ele-nav .el-submenu.first .el-menu a {
+  padding-left: 40px;
+}
+.el-menu.vue-ele-nav .el-submenu.second .el-menu a {
+  padding-left: 60px;
+}
+.el-menu.vue-ele-nav .el-submenu.third .el-menu a {
+  padding-left: 80px;
+}
+.el-menu.vue-ele-nav a {
+  display: block;
+  padding-left: 20px;
+  position: relative;
+  user-select: none;
+}
+.el-menu.vue-ele-nav a i {
+  vertical-align: baseline;
+}
+.el-menu.vue-ele-nav .el-submenu__icon-arrow {
+  height: 100%;
+  top: 0;
+  margin-top: 0;
+  z-index: 3;
+}
+body > .el-menu--horizontal .el-menu {
+  margin-top: 0;
+  padding: 0;
+}
+body > .el-menu--horizontal .el-menu .el-menu-item,
+body > .el-menu--horizontal .el-menu .el-submenu__title {
+  background: transparent;
+}
+body > .el-menu--horizontal .el-menu--popup-right-start {
+  margin: 0;
+}
+body > .el-menu--horizontal .el-menu-item,
+body > .el-menu--horizontal .el-submenu__title {
+  padding: 0 !important;
+}
+body > .el-menu--horizontal a {
+  display: block;
+  padding-left: 10px;
+  position: relative;
+  user-select: none;
+}
+body > .el-menu--horizontal a i {
+  vertical-align: baseline;
+}
+body > .el-menu--horizontal .el-submenu__icon-arrow {
+  right: 10px;
+  height: 100%;
+  top: 0;
+  margin-top: 0;
+  z-index: 3;
+}
