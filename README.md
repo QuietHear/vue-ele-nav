@@ -182,7 +182,7 @@
 	    width: 100%;
 	  }
 	}
-	body>.el-menu--horizontal {
+	html body>.el-menu--horizontal {
 	  .el-menu{
 	    .el-menu-item,
 	    .el-submenu__title{
