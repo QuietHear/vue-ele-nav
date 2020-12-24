@@ -1,7 +1,7 @@
 {
   "name": "vue-ele-nav",
   "description": "基于element、权限、国际化的vue nav组件",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "author": "aFei <1106728884@qq.com>",
   "license": "MIT",
   "main": "dist/vue-ele-nav.min.js",

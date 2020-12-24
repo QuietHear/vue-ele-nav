@@ -4,7 +4,7 @@
 */
 /*
  * @LastEditors: afei
- * @LastEditTime: 2020-12-22 16:23:19
+ * @LastEditTime: 2020-12-24 09:47:39
 */
 <template>
   <el-menu
@@ -204,8 +204,15 @@ export default {
     };
   },
   props: {
+    rootName: {
+      // 根目录开始路径
+      type: Array,
+      default: () => {
+        return ["main"];
+      },
+    },
     startName: {
-      // 菜单为main的某个直接子路由的路由名
+      // 菜单为rootName的某个直接子路由的路由名
       type: String,
       default: "",
     },
@@ -278,13 +285,13 @@ export default {
   methods: {
     // 初始化菜单
     initMenu() {
-      let routeMsg = JSON.parse(
-        JSON.stringify(
-          this.$router.options.routes.filter((item) => {
-            return item.name === "main";
-          })[0].children
-        )
-      );
+      let routeMsg = JSON.parse(JSON.stringify(this.$router.options.routes));
+      // 根目录查找
+      this.rootName.forEach((item) => {
+        routeMsg = routeMsg.filter((one) => {
+          return one.name === item;
+        })[0].children;
+      });
       // 设置了起始菜单
       if (this.startName !== "") {
         let lin = routeMsg.filter((item) => {
@@ -393,7 +400,7 @@ export default {
         }
       } else {
         // 需要代理跳转
-        if (router.name === "main") {
+        if (router.name === this.rootName[this.rootName.length-1]) {
           this.$router.push({
             name: this.navInformation[0].linkName,
             params: { ...router.params },
@@ -518,7 +525,7 @@ export default {
 @import "style/vueEleNav.css";
 </style>
 
+<!--样式扩展-->
 <style>
-/*默认颜色*/
 @import "style/cname.css";
 </style>

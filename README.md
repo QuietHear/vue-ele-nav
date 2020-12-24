@@ -6,20 +6,7 @@
 ## 0. 组件说明
 ##### ①. 依赖组件
 * element-ui
-* vue-router（router文件第一层首页name必须为main）
->
-	const routes = [
-		{
-			path: '/',
-			name: 'main',
-			component: ...,
-			children: [
-				...子业务路由
-			]
-		},
-		...其余功能路由
-	];
->
+* vue-router
 
 ##### ②. 支持扩展
 * i18n
@@ -34,6 +21,7 @@
 * `redirectName:''`：父元素为空，子元素有权限但是不展示到菜单中时，指向到想要跳转的菜单name即可，如需点亮菜单子菜单必须加*markName*
 
 ## 2. 参数
+* `root-name`：从根目录开始，到业务菜单的name集合-->Array;非必传;默认*["main"]*,取根目录下main的所有菜单
 * `start-name`：菜单为main的某个直接子路由的路由名-->String;非必传;默认*""*,取main下所有菜单
 * `only-first`：只展示当前菜单第一层-->Boolean;非必传;默认*false*
 >
