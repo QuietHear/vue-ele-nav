@@ -4,11 +4,11 @@
 */
 /*
  * @LastEditors: afei
- * @LastEditTime: 2020-12-24 09:47:39
+ * @LastEditTime: 2021-01-08 13:56:12
 */
 <template>
   <el-menu
-    ref="tab"
+    ref="eleNav"
     :class="['vue-ele-nav', cname]"
     :collapse="collapse"
     :collapse-transition="collapseTransition"
@@ -201,6 +201,7 @@ export default {
     return {
       opens: [],
       navInformation: [],
+      init: false,
     };
   },
   props: {
@@ -386,7 +387,7 @@ export default {
       }
     },
     // 路由改变
-    changeRouter(type) {
+    changeRouter() {
       const router = this.$route;
       if (this.onlyFirst) {
         // 需要代替点亮
@@ -400,7 +401,7 @@ export default {
         }
       } else {
         // 需要代理跳转
-        if (router.name === this.rootName[this.rootName.length-1]) {
+        if (router.name === this.rootName[this.rootName.length - 1]) {
           this.$router.push({
             name: this.navInformation[0].linkName,
             params: { ...router.params },
@@ -433,7 +434,8 @@ export default {
       this.findPath(route).then((res) => {
         const routeMsg = res;
         // 初始化时展开当前激活菜单
-        if (this.opens.length === 0) {
+        if (!this.init) {
+          this.init = true;
           let arr = [...routeMsg.list];
           for (let i = 0; i < arr.length - 1; i++) {
             this.opens.push(arr.slice(0, i + 1).join("-"));
