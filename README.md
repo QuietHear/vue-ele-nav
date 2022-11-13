@@ -7,6 +7,8 @@
 	// 需要安装前置依赖组件，已安装请忽略
 	npm i vue-router@3.x
 	npm i element-ui
+	// 开启国际化需要安装组件，已安装请忽略
+	npm i vue-i18n
 
 ## 使用
 	import vueEleNav from 'vue-ele-nav';
