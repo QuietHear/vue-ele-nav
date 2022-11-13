@@ -1,7 +1,7 @@
 {
   "name": "vue-ele-nav",
-  "description": "基于element、权限、国际化的vue nav组件",
-  "version": "3.0.5",
+  "description": "基于element、权限、国际化的vue2 nav组件",
+  "version": "3.1.0",
   "author": "aFei <1106728884@qq.com>",
   "license": "MIT",
   "main": "dist/vue-ele-nav.min.js",
@@ -11,13 +11,14 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "keywords": [
-    "Vue",
+    "Vue2",
     "Element",
     "permission",
     "i18n",
-    "vue-router"
+    "vue-router3"
   ],
-  "homepage": "https://github.com/QuietHear/vue-ele-nav",
+  "homepage": "https://github.com/QuietHear",
+  "repository": "https://github.com/QuietHear/vue-ele-nav",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",

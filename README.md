@@ -1,8 +1,15 @@
 # 基于element-menu组件的菜单组件（vue2版）
 [**vue3版本**](https://github.com/QuietHear/vue-ele-nav-plus '浏览') | ***vue2版本***
 
+
 ## 安装
 	npm i vue-ele-nav
+
+## 使用
+	import vueEleNav from 'vue-ele-nav';
+	
+	Vue.use(vueEleNav);
+
 
 ## 0. 组件说明
 ##### ①. 依赖组件
@@ -13,6 +20,7 @@
 * i18n
 * iconfont(class形式)
 
+
 ## 1. 修改之前路由的meta属性(展示属性全靠meta控制)
 * `title:''`：导航展示的标题内容
 * `icon:''`：图标class
@@ -20,6 +28,7 @@
 * `showSelf:true`：展示在导航栏的父级菜单点击时是否展示其页面内容，只有true才展示，否则跳转到子菜单第一个
 * `markName:''`：代替当前路由点亮的导航的name，一般给show:false时使用
 * `redirectName:''`：当前菜单内容为空，且展示到菜单中无子元素，子元素有权限但是不展示到菜单中时，加给父元素指向到想要跳转的菜单name即可，如需点亮菜单给子菜单必须加*markName*
+
 
 ## 2. 参数
 * `root-name`：从根目录开始，到业务菜单的name集合-->Array;非必传;默认*["main"]*,取根目录下main的所有菜单
@@ -68,6 +77,7 @@
 >
 
 * `accordion`：是否开启手风琴模式-->Boolean;非必传;默认*false*
+
 
 ## 3. 自定义class（demo）
 >
