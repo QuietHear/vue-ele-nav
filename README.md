@@ -1,9 +1,12 @@
-# 基于element-menu组件的菜单组件（vue2版）
+# 基于el-menu的菜单组件（vue2版）
 [**vue3版本**](https://github.com/QuietHear/vue-ele-nav-plus '浏览') | ***vue2版本***
 
 
 ## 安装
 	npm i vue-ele-nav
+	// 需要安装前置依赖组件，已安装请忽略
+	npm i vue-router@3.x
+	npm i element-ui
 
 ## 使用
 	import vueEleNav from 'vue-ele-nav';
